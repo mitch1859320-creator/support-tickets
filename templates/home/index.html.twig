@@ -1,0 +1,41 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Déposer un Ticket - Support Clients{% endblock %}
+
+{% block body %}
+<div class="row justify-content-center">
+    <div class="col-md-8">
+        <div class="card shadow-sm">
+            <div class="card-header bg-primary text-white">
+                <h4 class="mb-0">Déposer un nouveau ticket d'assistance</h4>
+            </div>
+            <div class="card-body">
+                <p class="text-muted">Un problème ou une demande d'évolution ? Remplissez ce formulaire et notre équipe prendra en charge votre ticket.</p>
+                
+                {{ form_start(form) }}
+                    <div class="mb-3">
+                        {{ form_label(form.auteurEmail, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.auteurEmail, {'attr': {'class': 'form-control'}}) }}
+                        {{ form_errors(form.auteurEmail) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.categorie, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.categorie, {'attr': {'class': 'form-select'}}) }}
+                        {{ form_errors(form.categorie) }}
+                    </div>
+
+                    <div class="mb-3">
+                        {{ form_label(form.description, null, {'label_attr': {'class': 'form-label fw-bold'}}) }}
+                        {{ form_widget(form.description, {'attr': {'class': 'form-control'}}) }}
+                        <div class="form-text">La description doit contenir entre 20 et 250 caractères.</div>
+                        {{ form_errors(form.description) }}
+                    </div>
+
+                    <button type="submit" class="btn btn-success w-100">Envoyer le ticket</button>
+                {{ form_end(form) }}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

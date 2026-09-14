@@ -1,0 +1,59 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gestion des Tickets{% endblock %}
+
+{% block body %}
+<div class="d-flex justify-content-between align-items-center mb-4">
+    <h2>📋 Liste des Tickets Clients</h2>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body p-0">
+        <table class="table table-striped table-hover mb-0 align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>#</th>
+                    <th>Client</th>
+                    <th>Catégorie</th>
+                    <th>Statut</th>
+                    <th>Responsable</th>
+                    <th>Date d'ouverture</th>
+                    <th>Date de clôture</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for ticket in tickets %}
+                <tr>
+                    <td><strong>#{{ ticket.id }}</strong></td>
+                    <td>{{ ticket.auteurEmail }}</td>
+                    <td><span class="badge bg-secondary">{{ ticket.categorie ? ticket.categorie.nom : '-' }}</span></td>
+                    <td>
+                        {% if ticket.etat and ticket.etat.nom == 'Nouveau' %}
+                            <span class="badge bg-danger">Nouveau</span>
+                        {% elseif ticket.etat and ticket.etat.nom == 'Ouvert' %}
+                            <span class="badge bg-warning text-dark">Ouvert</span>
+                        {% elseif ticket.etat and ticket.etat.nom == 'Résolu' %}
+                            <span class="badge bg-info text-dark">Résolu</span>
+                        {% else %}
+                            <span class="badge bg-success">Fermé</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ ticket.responsable ? ticket.responsable.nom : '<em class="text-muted">Non assigné</em>'|raw }}</td>
+                    <td>{{ ticket.dateOuverture ? ticket.dateOuverture|date('d/m/Y H:i') : '' }}</td>
+                    <td>{{ ticket.dateCloture ? ticket.dateCloture|date('d/m/Y H:i') : '-' }}</td>
+                    <td>
+                        <a href="{{ path('app_ticket_show', {'id': ticket.id}) }}" class="btn btn-sm btn-outline-primary me-1">Voir</a>
+                        <a href="{{ path('app_ticket_edit', {'id': ticket.id}) }}" class="btn btn-sm btn-primary">Traiter</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="8" class="text-center py-4 text-muted">Aucun ticket enregistré pour le moment.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}
